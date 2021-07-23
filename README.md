@@ -1,2 +1,7 @@
-# alist
-A todo list app in scala
+## AList
+
+A CLI todo list app
+
+### Usage
+
+Coming Soon
