@@ -29,7 +29,11 @@ object Main extends App {
         Try(
           v.split(" ").last.toInt
         ) match {
-          case Failure(err) => println(s"View process failed with exception: ${err.getCause}")
+          case Failure(err) => if (err.getCause.toString == "null") {
+            println("You did not include the id in the command!")
+          } else {
+            println(s"\tView process failed with exception: ${err.getCause}")
+          }
           case Success(id) =>
             inMemory filter (_.id == id) match {
               case x if x.isEmpty =>
@@ -43,7 +47,12 @@ object Main extends App {
         Try(
           v.split(" ").last.toInt
         ) match {
-          case Failure(err) => println(s"Edit process failed with exception: ${err.getCause}")
+          case Failure(err) =>
+            if (err.getCause.toString == "null") {
+              println("You did not include the id in the command!")
+            } else {
+              println(s"\tEdit process failed with exception: ${err.getCause}")
+            }
           case Success(id) =>
             edit(id)
         }
@@ -52,7 +61,12 @@ object Main extends App {
         Try(
           v.split(" ").last.toInt
         ) match {
-          case Failure(err) => println(s"View process failed with exception: ${err.getCause}")
+          case Failure(err) =>
+            if (err.getCause.toString == "null") {
+              println("You did not include the id in the command!")
+            } else {
+              println(s"\tDrop process failed with exception: ${err.getCause}")
+            }
           case Success(id) =>
             if (inMemory.isEmpty) {
               println("    No todo list item matches id " + id)
@@ -66,7 +80,7 @@ object Main extends App {
         println("Goodbye!")
         System.exit(0)
 
-      case _ => println("Unrecognized Input!")
+      case _ => println("\tUnrecognized Input!")
 
     }
     commit()

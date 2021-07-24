@@ -4,7 +4,7 @@ on:
     branches:
       - publish
     tags:
-      - '*'
+      - 'v*'
   pull_request:
     branches:
       - publish
@@ -49,7 +49,7 @@ jobs:
     steps:
       - uses: DeLaGuardo/setup-graalvm@3
         with:
-          graalvm-version: '21.2.0.java11'
+          graalvm-version: '20.0.0.java11'
 
       - name: Install GraalVM's native-image extension
         run: gu install native-image
