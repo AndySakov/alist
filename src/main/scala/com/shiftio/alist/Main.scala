@@ -1,8 +1,10 @@
+package com.shiftio.alist
+
 //import Api.nextID
 
-import Api._
-import DB.{commit, inMemory}
-import commons._
+import com.shiftio.alist.api.Api.{add, cls, edit, list, _}
+import com.shiftio.alist.api.DB.{commit, inMemory}
+import com.shiftio.alist.api.commons.{header, helpText, promptText}
 
 import scala.annotation.tailrec
 import scala.io.StdIn._

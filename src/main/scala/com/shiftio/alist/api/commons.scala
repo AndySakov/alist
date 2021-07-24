@@ -1,3 +1,5 @@
+package com.shiftio.alist.api
+
 import com.colofabrix.scala.figlet4s.unsafe.{FIGureOps, Figlet4s, OptionsBuilderOps}
 import fansi.Attrs
 

@@ -9,5 +9,8 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.1.0" % Test,
   "com.lihaoyi" %% "fansi" % "0.2.14",
   "com.github.tototoshi" %% "scala-csv" % "1.3.8"
-
 )
+
+lazy val main = "com.shiftio.alist.Main"
+mainClass in(Compile, run) := Some(main)
+mainClass in(Compile, packageBin) := Some(main)
