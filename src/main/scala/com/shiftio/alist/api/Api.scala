@@ -2,7 +2,7 @@ package com.shiftio.alist.api
 
 import com.shiftio.alist.api.DB.inMemory
 import com.shiftio.alist.api.commons.OS.{FREEBSD, LINUX, MAC_OS_X, SUN_OS, UNKNOWN, WINDOWS, _OS_NAME_}
-import com.shiftio.alist.api.commons.TodoItem
+import com.shiftio.alist.api.commons.{TodoItem, error, info}
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -39,7 +39,7 @@ object Api {
     case SUN_OS => "clear".!
     case FREEBSD => "clear".!
     case UNKNOWN =>
-      println("Unrecognized OS\nExiting...")
+      println(error("Unrecognized OS\nExiting..."))
       System.exit(0)
   }
 
@@ -49,7 +49,7 @@ object Api {
   }
 
   def add(): Unit = {
-    println("    Add a new todo list item")
+    println(info("\tAdd a new todo list item"))
     val name = readVar("\tName: ")
     val desc = readVar("\tDescription: ")
     val dueBy = readVar("\tDue Date[yyyy-MM-dd][Press Enter to skip]: ") match {
@@ -60,12 +60,16 @@ object Api {
       case "y" => true
       case _ => false
     }
-    inMemory = inMemory.appended(TodoItem(if (inMemory.isEmpty) 1 else inMemory.maxBy(_.id).id + 1, name, desc, dueBy, remind = remind))
+    if (name.isEmpty || desc.isEmpty) {
+      println(error("\n\tCannot add empty data to database"))
+    } else {
+      inMemory = inMemory.appended(TodoItem(if (inMemory.isEmpty) 1 else inMemory.maxBy(_.id).id + 1, name, desc, dueBy, remind = remind))
+    }
   }
 
   def list(): Unit = {
     if (inMemory.isEmpty) {
-      println("    You've not added any items yet!")
+      println(info("\tYou've not added any items yet!"))
     } else {
       println(listHeading)
       inMemory foreach listTodoItem
@@ -74,9 +78,9 @@ object Api {
 
   def edit(id: Int): Unit = {
     if (inMemory.isEmpty) {
-      println("    No todo list item matches id " + id)
+      println(error("\tNo todo list item matches id " + id))
     } else {
-      println("\tPress enter to leave unchanged")
+      println(info("\tAdd no input to leave unchanged"))
       inMemory = inMemory.filterNot(_.id == id) ::: inMemory.filter(_.id == id).map(x => {
         println(s"\tOld Name: ${x.name}")
         val newName = readVar("\tNew Name: ")

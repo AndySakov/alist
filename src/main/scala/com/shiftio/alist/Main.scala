@@ -4,7 +4,7 @@ package com.shiftio.alist
 
 import com.shiftio.alist.api.Api.{add, cls, edit, list, _}
 import com.shiftio.alist.api.DB.{commit, inMemory}
-import com.shiftio.alist.api.commons.{header, helpText, promptText}
+import com.shiftio.alist.api.commons._
 
 import scala.annotation.tailrec
 import scala.io.StdIn._
@@ -29,15 +29,15 @@ object Main extends App {
         Try(
           v.split(" ").last.toInt
         ) match {
-          case Failure(err) => if (err.getCause.toString == "null") {
-            println("You did not include the id in the command!")
-          } else {
-            println(s"\tView process failed with exception: ${err.getCause}")
-          }
+          case Failure(err) =>
+            err match {
+              case _ =>
+                println(error("\tPlease include the id in the command!"))
+            }
           case Success(id) =>
             inMemory filter (_.id == id) match {
               case x if x.isEmpty =>
-                println("    No todo list item matches id " + id)
+                println("\tNo todo list item matches id " + id)
               case x =>
                 x foreach viewTodoItem
             }
@@ -48,28 +48,26 @@ object Main extends App {
           v.split(" ").last.toInt
         ) match {
           case Failure(err) =>
-            if (err.getCause.toString == "null") {
-              println("You did not include the id in the command!")
-            } else {
-              println(s"\tEdit process failed with exception: ${err.getCause}")
+            err match {
+              case _ =>
+                println(error("\tPlease include the id in the command!"))
             }
           case Success(id) =>
             edit(id)
         }
 
-      case v if v take 3 equalsIgnoreCase "drop" =>
+      case v if v take 4 equalsIgnoreCase "drop" =>
         Try(
           v.split(" ").last.toInt
         ) match {
           case Failure(err) =>
-            if (err.getCause.toString == "null") {
-              println("You did not include the id in the command!")
-            } else {
-              println(s"\tDrop process failed with exception: ${err.getCause}")
+            err match {
+              case _ =>
+                println(error("\tPlease include the id in the command!"))
             }
           case Success(id) =>
             if (inMemory.isEmpty) {
-              println("    No todo list item matches id " + id)
+              println(error("\tNo todo list item matches id " + id))
             } else {
               inMemory = inMemory.filterNot(_.id == id)
             }
@@ -77,10 +75,10 @@ object Main extends App {
         list()
 
       case q if q take 4 equalsIgnoreCase "quit" =>
-        println("Goodbye!")
+        println(success("\tGoodbye!"))
         System.exit(0)
 
-      case _ => println("\tUnrecognized Input!")
+      case _ => println(error("\t\tInvalid Input!"))
 
     }
     commit()
@@ -100,5 +98,6 @@ object Main extends App {
   println(
     header
   )
+  run("list")
   prompt()
 }

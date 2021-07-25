@@ -2,7 +2,7 @@ package com.shiftio.alist.api
 
 import better.files.Dsl.pwd
 import better.files.File
-import com.shiftio.alist.api.commons.TodoItem
+import com.shiftio.alist.api.commons.{TodoItem, error}
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -15,7 +15,7 @@ object DB {
 
   def selectAll: List[TodoItem] = {
     if (!db.exists) {
-      println("[INFO] DB file not found!\n[INFO] Creating new db in present working directory")
+      println(error("[INFO] DB file not found!\n[INFO] Creating new db in present working directory"))
       db.createFile()
     }
     read()

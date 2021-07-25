@@ -1,7 +1,7 @@
 package com.shiftio.alist.api
 
 import com.colofabrix.scala.figlet4s.unsafe.{FIGureOps, Figlet4s, OptionsBuilderOps}
-import fansi.Attrs
+import fansi.{Attrs, Str}
 
 import java.time.LocalDate
 import scala.language.postfixOps
@@ -13,18 +13,21 @@ object commons {
 
   val asciiStyle: Attrs = fansi.Bold.On ++ Random.shuffle(fansi.Color.all).head
   val captionStyle: Attrs = fansi.Bold.On ++ Random.shuffle(fansi.Color.all).head
-  val helpStyle: Attrs = fansi.Underlined.On ++ fansi.Bold.On ++ Random.shuffle(fansi.Color.all).head
-  val promptText = "> "
+  val help: Attrs = fansi.Underlined.On ++ fansi.Bold.On ++ Random.shuffle(fansi.Color.all).head
+  val error: Attrs = fansi.Underlined.On ++ fansi.Bold.On ++ fansi.Color.Red
+  val info: Attrs = fansi.Color.LightBlue
+  val success: Attrs = fansi.Color.Green ++ fansi.Bold.On
+  val promptText: Str = asciiStyle("~❯ ")
 
   val header =
     s"${
       asciiStyle(Figlet4s
-        .builder("AList   1 . 0 !")
+        .builder("       ALIST")
         .render
         .asSeq
         .map(x => "       " + x)
         .mkString("\n"))
-    } ${captionStyle("\n\t\tGet your life organized!")} ${helpStyle("\n\t\tType help to view options\n")}"
+    } ${captionStyle("\n\t\tGet your life organized!")} ${help("\n\t\tType help to view options\n")}"
 
   val helpText: String =
     """    add: Add a new todo list item
