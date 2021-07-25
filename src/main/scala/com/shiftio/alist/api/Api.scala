@@ -5,10 +5,11 @@ import com.shiftio.alist.api.commons.OS.{FREEBSD, LINUX, MAC_OS_X, SUN_OS, UNKNO
 import com.shiftio.alist.api.commons.{TodoItem, error, info}
 
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import java.time.format.{DateTimeFormatter, DateTimeParseException}
 import scala.io.StdIn.readLine
 import scala.language.postfixOps
 import scala.sys.process._
+import scala.util.{Failure, Success, Try}
 
 
 object Api {
@@ -52,9 +53,23 @@ object Api {
     println(info("\tAdd a new todo list item"))
     val name = readVar("\tName: ")
     val desc = readVar("\tDescription: ")
-    val dueBy = readVar("\tDue Date[yyyy-MM-dd][Press Enter to skip]: ") match {
-      case "" => None
-      case date => Some(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+    val dueBy = readVar("\n\tPress Enter to skip\n\tDue Date[yyyy-MM-dd]: ") match {
+      case date =>
+        Try {
+          LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        } match {
+          case Failure(err) =>
+            err match {
+              case _: DateTimeParseException =>
+                if (date.nonEmpty) {
+                  println(error(s"\n\t'$date' is not a valid date!"))
+                }
+                None
+            }
+          case Success(parsed) =>
+            Some(parsed)
+        }
+
     }
     val remind = readVar("\tRemind[y/n]: ") match {
       case "y" => true
@@ -107,10 +122,23 @@ object Api {
             }
           },
           {
-            if (newDueBy == "") {
-              x.dueBy
-            } else {
-              Some(LocalDate.parse(newDueBy, DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+            newDueBy match {
+              case date =>
+                Try {
+                  LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                } match {
+                  case Failure(err) =>
+                    err match {
+                      case _: DateTimeParseException =>
+                        println(error(s"\n\tString '$date' is not a valid date!"))
+                        None
+                    }
+                  case Success(parsed) =>
+                    Some(parsed)
+                }
+              case "" =>
+                x.dueBy
+
             }
           },
           {
