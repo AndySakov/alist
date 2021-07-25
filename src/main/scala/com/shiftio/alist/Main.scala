@@ -6,6 +6,8 @@ import com.shiftio.alist.api.Api.{add, cls, edit, list, _}
 import com.shiftio.alist.api.DB.{commit, inMemory}
 import com.shiftio.alist.api.commons._
 
+import java.awt.Desktop
+import java.net.URI
 import scala.annotation.tailrec
 import scala.io.StdIn._
 import scala.language.postfixOps
@@ -73,10 +75,18 @@ object Main extends App {
             }
         }
         list()
+      case v if v equalsIgnoreCase "version" => println(s"\tALIST version $version")
+
+      case m if m equalsIgnoreCase "more" =>
+        println("\tOpening developers page...")
+        Desktop.getDesktop.browse(URI.create("https://github.com/AndySakov/ALIST"))
 
       case q if q take 4 equalsIgnoreCase "quit" =>
         println(success("\tGoodbye!"))
         System.exit(0)
+
+      case "" =>
+      // Do nothing
 
       case _ => println(error("\t\tInvalid Input!"))
 

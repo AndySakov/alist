@@ -14,10 +14,11 @@ object commons {
   val asciiStyle: Attrs = fansi.Bold.On ++ Random.shuffle(fansi.Color.all).head
   val captionStyle: Attrs = fansi.Bold.On ++ Random.shuffle(fansi.Color.all).head
   val help: Attrs = fansi.Underlined.On ++ fansi.Bold.On ++ Random.shuffle(fansi.Color.all).head
-  val error: Attrs = fansi.Underlined.On ++ fansi.Bold.On ++ fansi.Color.Red
+  val error: Attrs = fansi.Bold.On ++ fansi.Color.Red
   val info: Attrs = fansi.Color.LightBlue
   val success: Attrs = fansi.Color.Green ++ fansi.Bold.On
   val promptText: Str = asciiStyle("~❯ ")
+  val version = "1.0.2"
 
   val header =
     s"${
@@ -35,7 +36,9 @@ object commons {
       |    view [x]: View todo list item with id x
       |    edit [x]: Edit todo list item with id x
       |    drop [x]: Drop todo list item with id x
+      |    version: Prints the project version
       |    help: Prints this message
+      |    more: Opens developer page
       |    quit: Exit the program
     """ stripMargin
 
