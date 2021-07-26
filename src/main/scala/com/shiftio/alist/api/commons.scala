@@ -18,8 +18,7 @@ object commons {
   val info: Attrs = fansi.Color.LightBlue
   val success: Attrs = fansi.Color.Green ++ fansi.Bold.On
   val promptText: Str = asciiStyle("~❯ ")
-  val version = "1.0.2"
-
+  val version = "1.0.1"
   val header =
     s"${
       asciiStyle(Figlet4s

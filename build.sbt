@@ -1,6 +1,6 @@
 name := "alist"
 organization := "com.shiftio"
-version := "1.0-SNAPSHOT"
+version := "1.0.1"
 scalaVersion := "2.13.1"
 lazy val circeVersion = "0.12.3"
 libraryDependencies ++= Seq(
