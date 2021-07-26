@@ -1,7 +1,6 @@
 # ALIST **v1.0.1**
 
-A CLI todo list app written in **Scala**
-Scala Version **2.13.6**
+A CLI todo list app written in **Scala** Version **2.13.6**
 
 ## Usage
 
