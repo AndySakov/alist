@@ -1,7 +1,7 @@
 name := "alist"
 organization := "com.shiftio"
 version := "1.0.1"
-scalaVersion := "2.13.1"
+scalaVersion := "2.13.6"
 lazy val circeVersion = "0.12.3"
 libraryDependencies ++= Seq(
   "com.github.pathikrit" %% "better-files" % "3.9.1",
