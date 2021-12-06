@@ -18,7 +18,7 @@ object Golem {
     cipher.init(Cipher.ENCRYPT_MODE, keySpec, iv)
 
     val encrypted = cipher.doFinal(text.getBytes())
-    Base64.getEncoder.encodeToString(encrypted)
+    return Base64.getEncoder.encodeToString(encrypted)
   }
 
   def decrypt(text: String): String = {
